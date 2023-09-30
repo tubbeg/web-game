@@ -12,17 +12,6 @@
     [ring.middleware.resource :refer [wrap-resource]])
   (:import (java.util Date)))
 
-(file-response "index.html" {:root "resources/public"})
-
-(defroutes app2
-  (GET "/index" [] "<h1>Hello World</h1>")
-  (GET "/" []
-    (file-response 
-     "index.html" 
-     {:root "resources/public"}))
-  (route/not-found "<h1>Page not found</h1>"))
-
-
 (defn handleEntry [req]
   (println "received request on entry: " req)
   (let [r (-> (resource-response "public/index.html")
@@ -33,7 +22,7 @@
 
 (defn handleIndex [req]
   (println "received req" req) 
-   "<h1>Hello World</h1>")
+   "<h1>Index</h1>")
 
 (defroutes webRoutes
   (GET "/index" [] handleIndex)
@@ -49,8 +38,7 @@
       (wrap-content-type)
       (wrap-not-modified)))
 
-(def now (Date.))
-now
+(defn get-now [] (Date.))
 
 (def serverApp
   (addMiddleWare webRoutes))
@@ -60,7 +48,8 @@ now
 
 (defn -main
   [& args] 
-  (println "Init")
-  (start-my-server webRoutes 3000))
+  (let [p 3000]
+    (println "Starting server on port: " p)
+    (start-my-server webRoutes p)))
 
 
