@@ -50,6 +50,6 @@
   [& args] 
   (let [p 3000]
     (println "Starting server on port: " p)
-    (start-my-server webRoutes p)))
+    (start-my-server serverApp p)))
 
 
