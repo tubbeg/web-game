@@ -31,25 +31,34 @@
   (route/not-found "<h1>Page not found</h1>"))
 
 (defn addMiddleWare [routes]
+  (println "adding middleware")
   (-> routes
-      (wrap-resource "resources/public")
-      (wrap-resource "resources/public/assets")
+      (wrap-resource "public")
+      ;(wrap-resource "public/assets")
       ;(wrap-content-type "text/html")
-      (wrap-content-type)
-      (wrap-not-modified)))
+      (wrap-content-type )
+      (wrap-not-modified)
+      ))
 
 (defn get-now [] (Date.))
 
 (def serverApp
   (addMiddleWare webRoutes))
 
-(defn start-my-server [app port]
+(defn start-my-server [app port] 
   (hk-server/run-server app {:port port}))
 
-(defn -main
-  [& args] 
+(defn startServerApp []
   (let [p 3000]
-    (println "Starting server on port: " p)
-    (start-my-server serverApp p)))
+     (println "Starting server on port: " p)
+     (-> webRoutes
+         (addMiddleWare)
+         (start-my-server p))))
+
+
+
+(defn -main
+  [& args]
+  (startServerApp))
 
 
