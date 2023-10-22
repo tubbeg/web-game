@@ -55,7 +55,8 @@
          (addMiddleWare)
          (start-my-server p))))
 
-
+; make jar standalone using 'lein uberjar'
+; run using java -jar {put jar name here}
 
 (defn -main
   [& args]
